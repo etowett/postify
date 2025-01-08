@@ -33,6 +33,7 @@ input CreateUserInput {
   email: String!
   name: String!
   password: String!
+  passwordConfirm: String!
 }
 
 type LoginResponse {
@@ -55,8 +56,8 @@ type Mutation {
 
 type Post {
   _id: ID!
-  author: String!
-  category: String!
+  author: User!
+  category: Category!
   content: String!
   title: String!
 }

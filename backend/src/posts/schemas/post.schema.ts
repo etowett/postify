@@ -1,6 +1,8 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { Category } from '../../categories/schemas/category.schema';
+import { User } from '../../users/schemas/user.schema';
 
 @Schema({ timestamps: true })
 @ObjectType()
@@ -17,12 +19,12 @@ export class Post extends Document {
   content: string;
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
-  @Field()
-  author: string;
+  @Field(() => User)
+  author: User;
 
   @Prop({ type: Types.ObjectId, ref: 'Category' })
-  @Field()
-  category: string;
+  @Field(() => Category)
+  category: Category;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
