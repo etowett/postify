@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
@@ -10,7 +10,23 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async createUser(createUserInput: CreateUserInput): Promise<User> {
-    const { email, password, name } = createUserInput;
+    const { email, password, passwordConfirm, name } = createUserInput;
+
+    if (password !== passwordConfirm) {
+      throw new BadRequestException(
+        'Password and Confirm Password do not match',
+      );
+    }
+
+    if (name.split(' ').length < 2) {
+      throw new BadRequestException('name must be at least two names');
+    }
+
+    const userByMail = await this.findByEmail(email);
+    if (userByMail) {
+      throw new BadRequestException(`Email ${email} already registered`);
+    }
+
     const hashedPass = await bcrypt.hash(password, 10);
 
     const createdUser = new this.userModel({

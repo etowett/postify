@@ -15,12 +15,12 @@ export class PostsResolver {
   async posts(
     @Args('page', { type: () => Int, defaultValue: 1 }) page: number,
     @Args('limit', { type: () => Int, defaultValue: 10 }) limit: number,
-  ) {
+  ): Promise<Post[]> {
     return this.postsService.findAll(page, limit);
   }
 
   @Query(() => Post, { nullable: true })
-  async post(@Args('postId') postId: string) {
+  async post(@Args('postId') postId: string): Promise<Post> {
     return this.postsService.findOne(postId);
   }
 

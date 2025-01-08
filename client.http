@@ -20,12 +20,12 @@ mutation RegisterUser($createUserInput: CreateUserInput!) {
 
 {
   "createUserInput": {
-    "email": "userOne@citizix.com",
-    "name": "User One",
-    "password": "Post@Ify"
+    "email": "userTwo@gmail.com",
+    "name": "User Two",
+    "password": "Post@Ify",
+    "passwordConfirm": "Post@Ify"
   }
 }
-
 
 ### Login user
 # @name userLogin
@@ -42,7 +42,7 @@ mutation Login($loginUserInput: LoginUserInput!) {
 
 {
   "loginUserInput": {
-    "email": "userOne@citizix.com",
+    "email": "userTwo@gmail.com",
     "password": "Post@Ify"
   }
 }
@@ -66,7 +66,7 @@ mutation CreateCategory($createCategoryInput: CreateCategoryInput!) {
 
 {
   "createCategoryInput": {
-    "name": "Politics"
+    "name": "Business"
   }
 }
 
@@ -81,4 +81,64 @@ query Categories {
     _id
     name
   }
+}
+
+### Create Post
+POST {{baseUrl}}/graphql HTTP/1.1
+X-Request-Type: GraphQL
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{authToken}}
+
+mutation CreatePost($createPostInput: CreatePostInput!) {
+  createPost(createPostInput: $createPostInput) {
+    _id
+    author {
+      _id
+      email
+      name
+    }
+    category {
+      _id
+      name
+    }
+    content
+    title
+  }
+}
+
+{
+  "createPostInput": {
+    "categoryId": "677e29e7e15c231367201dd7",
+    "content": "last time I was in the remix, now I am in the original",
+    "title": "Big Remix"
+  }
+}
+
+### List posts
+POST {{baseUrl}}/graphql HTTP/1.1
+X-Request-Type: GraphQL
+Content-Type: application/json
+Accept: application/json
+
+query Posts($limit: Int!, $page: Int!) {
+  posts(limit: $limit, page: $page) {
+    _id
+    author {
+      _id
+      email
+      name
+    }
+    category {
+      _id
+      name
+    }
+    content
+    title
+  }
+}
+
+{
+  "limit": 10,
+  "page": 1
 }

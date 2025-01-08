@@ -11,7 +11,9 @@ import { JwtStrategy } from './jwt.strategy';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
+      secret:
+        process.env.JWT_SECRET ||
+        'XnUIl2t+IbjESGnNtMhk4zJBKwNV/+KjuQ13FGt4C+BRq0zqw+91LRNmVIsZguLG', // to investigate why not working
       signOptions: { expiresIn: '60m' },
     }),
   ],
