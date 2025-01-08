@@ -1,0 +1,83 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  _id: ID!
+  name: String!
+}
+
+type Comment {
+  _id: ID!
+  author: String!
+  content: String!
+  post: String!
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
+input CreateCommentInput {
+  content: String!
+  postId: String!
+}
+
+input CreatePostInput {
+  categoryId: String!
+  content: String!
+  title: String!
+}
+
+input CreateUserInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+type LoginResponse {
+  accessToken: String!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  createPost(createPostInput: CreatePostInput!): Post!
+  login(loginUserInput: LoginUserInput!): LoginResponse!
+  registerUser(createUserInput: CreateUserInput!): User!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+}
+
+type Post {
+  _id: ID!
+  author: String!
+  category: String!
+  content: String!
+  title: String!
+}
+
+type Query {
+  categories: [Category!]!
+  commentsByPost(postId: String!): [Comment!]!
+  post(postId: String!): Post
+  posts(limit: Int! = 10, page: Int! = 1): [Post!]!
+  users: [User!]!
+}
+
+input UpdatePostInput {
+  categoryId: String
+  content: String
+  postId: String!
+  title: String
+}
+
+type User {
+  _id: ID!
+  email: String!
+  name: String!
+}

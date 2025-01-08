@@ -1,0 +1,84 @@
+@baseUrl = http://127.0.0.1:7070
+
+### Get Healthz
+GET {{baseUrl}}/healthz HTTP/1.1
+Accept: application/json
+
+### Register user
+POST {{baseUrl}}/graphql HTTP/1.1
+X-Request-Type: GraphQL
+Content-Type: application/json
+Accept: application/json
+
+mutation RegisterUser($createUserInput: CreateUserInput!) {
+  registerUser(createUserInput: $createUserInput) {
+    _id
+    email
+    name
+  }
+}
+
+{
+  "createUserInput": {
+    "email": "userOne@citizix.com",
+    "name": "User One",
+    "password": "Post@Ify"
+  }
+}
+
+
+### Login user
+# @name userLogin
+POST {{baseUrl}}/graphql HTTP/1.1
+X-Request-Type: GraphQL
+Content-Type: application/json
+Accept: application/json
+
+mutation Login($loginUserInput: LoginUserInput!) {
+  login(loginUserInput: $loginUserInput) {
+    accessToken
+  }
+}
+
+{
+  "loginUserInput": {
+    "email": "userOne@citizix.com",
+    "password": "Post@Ify"
+  }
+}
+
+### Get User login token
+@authToken={{userLogin.response.body.data.login.accessToken}}
+
+### Create category
+POST {{baseUrl}}/graphql HTTP/1.1
+X-Request-Type: GraphQL
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{authToken}}
+
+mutation CreateCategory($createCategoryInput: CreateCategoryInput!) {
+  createCategory(createCategoryInput: $createCategoryInput) {
+    _id
+    name
+  }
+}
+
+{
+  "createCategoryInput": {
+    "name": "Politics"
+  }
+}
+
+### List categories
+POST {{baseUrl}}/graphql HTTP/1.1
+X-Request-Type: GraphQL
+Content-Type: application/json
+Accept: application/json
+
+query Categories {
+  categories {
+    _id
+    name
+  }
+}

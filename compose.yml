@@ -1,0 +1,20 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    command: mongod --quiet --logpath /dev/null
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=postify
+      - MONGO_INITDB_ROOT_PASSWORD=postify
+    volumes:
+      - postify_mongo:/data/db
+    networks:
+      - postify_net
+
+volumes:
+  postify_mongo:
+
+networks:
+  postify_net:
+    driver: bridge
