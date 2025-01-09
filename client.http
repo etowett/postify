@@ -142,3 +142,75 @@ query Posts($limit: Int!, $page: Int!) {
   "limit": 10,
   "page": 1
 }
+
+### Get post by id
+POST {{baseUrl}}/graphql HTTP/1.1
+X-Request-Type: GraphQL
+Content-Type: application/json
+Accept: application/json
+
+query Post($postId: String!) {
+  post(postId: $postId) {
+    _id
+    author {
+      _id
+      email
+      name
+    }
+    category {
+      _id
+      name
+    }
+    content
+    title
+  }
+}
+
+{
+  "postId": "677e2a50e15c231367201ddc"
+}
+
+### Comments by post
+POST {{baseUrl}}/graphql HTTP/1.1
+X-Request-Type: GraphQL
+Content-Type: application/json
+Accept: application/json
+
+query CommentsByPost($postId: String!) {
+  commentsByPost(postId: $postId) {
+    _id
+    author {
+      _id
+      email
+      name
+    }
+    content
+  }
+}
+
+{
+  "postId": "677e2a50e15c231367201ddc"
+}
+
+### Create comment
+POST {{baseUrl}}/graphql HTTP/1.1
+X-Request-Type: GraphQL
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{authToken}}
+
+mutation CreateComment($createCommentInput: CreateCommentInput!) {
+  createComment(createCommentInput: $createCommentInput) {
+    _id
+    author
+    content
+    post
+  }
+}
+
+{
+  "createCommentInput": {
+    "content": "I am the first to comment",
+    "postId": "677e2a50e15c231367201ddc"
+  }
+}

@@ -1,3 +1,5 @@
+"use client";
+
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
