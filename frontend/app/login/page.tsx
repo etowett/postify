@@ -2,7 +2,7 @@
 
 import { gql, useMutation } from "@apollo/client";
 import { Box, Button, TextField } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const LOGIN = gql`

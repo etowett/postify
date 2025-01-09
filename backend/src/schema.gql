@@ -9,9 +9,9 @@ type Category {
 
 type Comment {
   _id: ID!
-  author: String!
+  author: User!
   content: String!
-  post: String!
+  post: Post!
 }
 
 input CreateCategoryInput {
